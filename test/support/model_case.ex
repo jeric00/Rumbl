@@ -21,6 +21,7 @@ defmodule Rumbl.ModelCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
+
       import Rumbl.TestHelpers
       import Rumbl.ModelCase
     end
@@ -30,9 +31,8 @@ defmodule Rumbl.ModelCase do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Rumbl.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.SandBox.mode(Rumbl.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Rumbl.Repo, {:shared, self()})
     end
-
     :ok
   end
   
@@ -62,9 +62,9 @@ defmodule Rumbl.ModelCase do
       iex> {:password, "is unsafe"} in changeset.errors
       true
   """
-  # def errors_on(struct, data) do
-  #   struct.__struct__.changeset(struct, data)
-  #   |> Ecto.Changeset.traverse_errors(&Rumbl.ErrorHelpers.translate_error/1)
-  #   |> Enum.flat_map(fn {key, errors} -> for msg <- errors, do: {key, msg} end)
-  # end
+  def errors_on(struct, data) do
+    struct.__struct__.changeset(struct, data)
+    |> Ecto.Changeset.traverse_errors(&Rumbl.ErrorHelpers.translate_error/1)
+    |> Enum.flat_map(fn {key, errors} -> for msg <- errors, do: {key, msg} end)
+  end
 end

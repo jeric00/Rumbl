@@ -9,6 +9,9 @@ use Mix.Config
 config :rumbl,
   ecto_repos: [Rumbl.Repo]
 
+config :rumbl, Repo,
+  pool: Ecto.Adapters.SQL.Sandbox
+
 # Configures the endpoint
 config :rumbl, Rumbl.Endpoint,
   url: [host: "localhost"],
